@@ -14,22 +14,40 @@ function App() {
     },
     {
       name: "Redmi Note 10 ",
-      price: '9999',
+      price: 9999,
       quantity:0,
     }
   ]
-  let [productList , setProductList] = useState(products)
+  let [productList , setProductList] = useState(products);
+  let [totalAmount, setTotalAmount] = useState(0);
 
   const incrementQuantity=(index)=>{
-    let newProductList=[...productList]
-    newProductList[index].quantity++
+    let newProductList=[...productList];
+    let newTotalAmount= totalAmount;
+    newProductList[index].quantity++;
+    newTotalAmount += newProductList[index].price;
+    setTotalAmount(newTotalAmount);
     setProductList(newProductList);
   }
   const decrementQuantity=(index)=>{
-    let newProductList=[...productList]
-    newProductList[index].quantity >0 ? newProductList[index].quantity-- :newProductList[index].quantity= 0
+    let newProductList=[...productList];
+    let newTotalAmount= totalAmount;
+   if(newProductList[index].quantity >0)
+   {
+    newProductList[index].quantity--;
+    newTotalAmount -= newProductList[index].price;
+   }
+    setTotalAmount(newTotalAmount);
     setProductList(newProductList);
   }
+
+  const reset=()=>{
+    let newProductList=[...productList];
+    newProductList.map((products)=>{products.quantity=0})
+    setProductList(newProductList);
+    setTotalAmount(0);
+  }
+
 
   return (
     <>
@@ -37,7 +55,7 @@ function App() {
         <main className='container mt-5'>
         <ProductList productList={productList} incrementQuantity={incrementQuantity} decrementQuantity={decrementQuantity}/> 
         </main>
-        <Footer/>
+        <Footer totalAmount={totalAmount} reset={reset}/>
     
     </>
   );
