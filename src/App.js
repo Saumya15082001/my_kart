@@ -68,7 +68,8 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      <Navbar 
+        productList={productList}/>
       <main className="container mt-5">
         <AddItem addItem={addItem}/>
         <ProductList
